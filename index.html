@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Logo -->
+                <div class="text-2xl font-bold">
+                    <a href="index.html"><img src="Images/crm logo.jpg" alt="logo" class="h-10 w-auto mr-2">CRM</a>
+                </div>
+            </div>
+                <!-- page header -->
+                <div class=" flex-1  text-center px-4">
+                    <h1 class="text-2xl font-bold">Dashboard</h1>
+            </div>
+            <!-- Right Section: User Profile and Hamburger -->
+            <div class="flex items-center space-x-4">
+            <!-- User Profile -->
+            <div class="relative">
+                <a href="user-profile.html" class="flex items-center space-x-2 hover:text-gray-300">
+                    <span>User</span>
+                    <div class="w-8 h-8 rounded-full bg-blue-600 overflow-hidden">
+                        <img src="Images/userProfile_icon.png" alt="userProfile_icon" class="h-full w-full rounded-full">
+                    </div>
+                </a>
+            </div>
+             <!-- Hamburger Menu Button (Visible on small screens) -->
+             <button id="sidebar-toggle" aria-label="Toggle menu" class="text-white focus:outline-none md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                </svg>
+            </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar and Main Content Container -->
+     <div class="flex flex-1 relative">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-gray-700 bg-opacity-90 text-white w-64 p-4 md:static fixed md:static md:translate-x-0 -right-64 md:right-0 h-screen md:h-auto transform transition-transform duration-300 ease-in-out z-50 shadow-xl">
+            <h2 class="text-xl font-bold mb-4 "><u>Quick Links</u></h2>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="block p-2 hover:bg-gray-700 rounded">Dashboard</a></li>
+                    <li><a href="customer.html" class="block p-2 hover:bg-gray-700 rounded">Customers</a></li>
+                    <li><a href="analytics.html" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
+                    <li><a href="task_tracking.html" class="block p-2 hover:bg-gray-700 rounded">Task Tracking</a></li>
+                    <li><a href="Interaction_Tracking.html" class="block p-2 hover:bg-gray-700 rounded">Interaction Tracking</a></li>
+                    <li><a href="contact.html" class="block p-2 hover:bg-gray-700 rounded">Contact</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+         <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
+
+            <h3 class="text-2xl font-bold  mb-4">Welcome "USER NAME".</h3>
+            <!--Dashboard grid container-->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <!--Total customers card-->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <Div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-sm font-medium">Total Customers</h3>
+                            <p class="text-2xl font-bold text-blue-600 mt-2">1234</p>  <!-- this is subject to change to something that dispalys this info from backend-->
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <!--User's icon-->
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        </div>
+                    </Div>
+            </div>
+
+            <!--Sales comparison card-->
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-gray-500 text-sm font-medium mb-4">Sales this Week</h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-2xl font-bold text-green-600">Ksh 200,000</p>
+                        <span class="text-sm text-green-500">↑ 12%</span>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Last Week</p>
+                    <p class="text-sm text-gray-500">Ksh 180,000</p>
+
+                </div>
+            </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-gray-500 text-sm font-medium">Pending Tasks</h3>
+                        <p class="text-2xl font-bold text-orange-600 mt-2">15</p>
+                    </div>
+                    <div class="bg-orange-100 p-3 rounded-full"></div>
+                    <!--Clipbard icon-->
+                    <svg class="w6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!--Recent interaction card-->
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-gray-500 text-sm font-medium mb-4">Recent Interaction</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between">
+                        <span class="text-gray-600">John Doe</span>
+                        <span class="text-sm text-gray-400">2hrs ago</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="text-gray-600">Jane Smith</span>
+                        <span class="text-sm text-gray-400">3hrs ago</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="text-gray-600">Mary Jane</span>
+                        <span class="text-sm text-gray-400">4hrs ago</span>
+                    </li>
+                </ul>
+            </div>
+            </div>
+            
+        <!--Revenue chart section-->
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-gray-500 text-sm font-medium mb-4">Revenue Trends(last 6 months)</h3>
+            <!--Revenue chart-->
+            <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                <!-- Chart placeholder (replace with actual chart) -->
+                <p class="text-gray-400">Revenue chart will go here</p>
+            </div>
+        </div>
+     </main>
+          <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        const toggleButton = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-right-64');
+            sidebar.classList.toggle('right-0');
+        });
+    </script>
+     </div>
+</body>
+</html>

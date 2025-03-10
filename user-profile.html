@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Logo -->
+                <div class="text-2xl font-bold">
+                    <a href="index.html"><img src="Images/crm logo.jpg" alt="logo" class="h-10 w-auto mr-2">CRM</a>
+                </div>
+            </div>
+                <!-- page header -->
+                <div class=" flex-1  text-center px-4">
+                    <h1 class="text-2xl font-bold">Profile </h1>
+            </div>
+            <!-- Right Section: User Profile and Hamburger -->
+            <div class="flex items-center space-x-4">
+            <!-- User Profile -->
+            <div class="relative">
+                <a href="user-profile.html" class="flex items-center space-x-2 hover:text-gray-300">
+                    <span>User</span>
+                    <div class="w-8 h-8 rounded-full bg-blue-600 overflow-hidden">
+                        <img src="Images/userProfile_icon.png" alt="userProfile_icon" class="h-full w-full rounded-full">
+                    </div>
+                </a>
+            </div>
+             <!-- Hamburger Menu Button (Visible on small screens) -->
+             <button id="sidebar-toggle" aria-label="Toggle menu" class="text-white focus:outline-none md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                </svg>
+            </button>
+            </div>
+        </div>
+    </header>
+        <!-- Main Content -->
+         <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
+            
+            <!-- Business Owner Info -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Business Owner Information</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Name</label>
+                        <p class="mt-1 text-gray-600">John Doe</p>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <p class="mt-1 text-gray-600">john@business.com</p>
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Phone</label>
+                        <p class="mt-1 text-gray-600">+254 700 123 456</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Details -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Business Details</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Business Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Business Name</label>
+                        <p class="mt-1 text-gray-600">Doe Enterprises</p>
+                    </div>
+                    
+                    <!-- Industry -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Industry</label>
+                        <p class="mt-1 text-gray-600">Restaurant & Hospitality</p>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Location</label>
+                        <p class="mt-1 text-gray-600">Nairobi, Kenya</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Basic Settings -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Basic Settings</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <!-- Email Notifications Toggle -->
+                <div class="flex items-center justify-between py-2">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-700">Email Notifications</h3>
+                        <p class="text-sm text-gray-500">Receive system notifications via email</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                    </label>
+                </div>
+
+                <!-- Export Data Button -->
+                <div class="border-t mt-4 pt-4">
+                    <button id="export-data" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+                        Export Business Data
+                    </button>
+                    <p class="mt-2 text-sm text-gray-500">Download all business data in CSV format</p>
+                </div>
+            </div>
+        </section>
+            
+         </main>
+     </div>
+</body>
+</html>

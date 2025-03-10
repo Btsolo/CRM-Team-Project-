@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Logo -->
+                <div class="text-2xl font-bold">
+                    <a href="index.html"><img src="Images/crm logo.jpg" alt="logo" class="h-10 w-auto mr-2">CRM</a>
+                </div>
+            </div>
+                <!-- page header -->
+                <div class=" flex-1  text-center px-4">
+                    <h1 class="text-2xl font-bold">Task Tracking</h1>
+            </div>
+            <!-- Right Section: User Profile and Hamburger -->
+            <div class="flex items-center space-x-4">
+            <!-- User Profile -->
+            <div class="relative">
+                <a href="user-profile.html" class="flex items-center space-x-2 hover:text-gray-300">
+                    <span>User</span>
+                    <div class="w-8 h-8 rounded-full bg-blue-600 overflow-hidden">
+                        <img src="Images/userProfile_icon.png" alt="userProfile_icon" class="h-full w-full rounded-full">
+                    </div>
+                </a>
+            </div>
+             <!-- Hamburger Menu Button (Visible on small screens) -->
+             <button id="sidebar-toggle" aria-label="Toggle menu" class="text-white focus:outline-none md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                </svg>
+            </button>
+            </div>
+        </div>
+    </header>
+    <!-- Sidebar and Main Content Container -->
+    <div class="flex flex-1 relative">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-gray-700 bg-opacity-90 text-white w-64 p-4 md:static fixed md:static md:translate-x-0 -right-64 md:right-0 h-screen md:h-auto transform transition-transform duration-300 ease-in-out z-50 shadow-xl">
+            <h2 class="text-xl font-bold mb-4 "><u>Quick Links</u></h2>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="block p-2 hover:bg-gray-700 rounded">Dashboard</a></li>
+                    <li><a href="customer.html" class="block p-2 hover:bg-gray-700 rounded">Customers</a></li>
+                    <li><a href="analytics.html" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
+                    <li><a href="task_tracking.html" class="block p-2 hover:bg-gray-700 rounded">Task Tracking</a></li>
+                    <li><a href="Interaction_Tracking.html" class="block p-2 hover:bg-gray-700 rounded">Interaction Tracking</a></li>
+                    <li><a href="contact.html" class="block p-2 hover:bg-gray-700 rounded">Contact</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+         <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
+
+            <!--Task creation form-->
+            <section class="mb-8"> 
+                <h2 class="text-2xl font-bold text-Gray-800 mb-4">Create new task</h2>
+                <form id="task-form" class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                        <!--Task Name-->
+                        <div>
+                            <label for="task-name" class="block text-gray-700 font-medium text-sm">Task Name</label>
+                            <input type="text" id="task-name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                    <!--assigned to-->
+                    <div>
+                        <label for="assigned-to" class="block text-sm font-medium text-gray-700">Assigned To </label>
+                        <select name="" id="assigned-to" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                            <option value="staff1">Staff Member 1</option>
+                            <option value="staff2">Staff Member 2</option>
+                        </select>
+                    </div>
+
+                    <!--Due dates-->
+                    <div>
+                        <label for="due-date" class="block text-sm font-medium text-gray-700"></label>
+                        <input type="datetime-local" id="due-date" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <!--Status-->
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select id="status" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                
+                     <!-- Description -->
+                <div class="mt-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
+                </div>
+                
+                </form>
+            </section>
+            <!-- Submit Button -->
+            <div class="p-2">
+                <button type="submit" class=" bg-gray-600 text-white px-4 py-2 rounded-md hover:text-blue-800">
+                    Create Task
+                </button>
+            </div>
+             <!-- Task List -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Task List</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-3 text-left text-sm font-semibold text-gray-700">Task Name</th>
+                            <th class="p-3 text-left text-sm font-semibold text-gray-700">Assigned To</th>
+                            <th class="p-3 text-left text-sm font-semibold text-gray-700">Due Date</th>
+                            <th class="p-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-list">
+                        <!-- Tasks will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+         </main>
+
+         <script>
+            // Task Form Handler
+            document.getElementById('task-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newTask = {
+                    name: document.getElementById('task-name').value,
+                    assigned: document.getElementById('assigned-to').value,
+                    dueDate: document.getElementById('due-date').value,
+                    status: document.getElementById('status').value,
+                    description: document.getElementById('description').value
+                };
+    
+                addTaskToTable(newTask);
+                this.reset();
+            });
+    
+            // Add Task to Table
+            function addTaskToTable(task) {
+                const taskList = document.getElementById('task-list');
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-200 hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="p-3 text-sm text-gray-700">${task.name}</td>
+                    <td class="p-3 text-sm text-gray-700">${task.assigned}</td>
+                    <td class="p-3 text-sm text-gray-700">${new Date(task.dueDate).toLocaleString()}</td>
+                    <td class="p-3 text-sm text-gray-700">
+                        <select class="status-select p-1 rounded ${getStatusColor(task.status)}">
+                            <option value="pending" ${task.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="in-progress" ${task.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="completed" ${task.status === 'completed' ? 'selected' : ''}>Completed</option>
+                        </select>
+                    </td>
+                `;
+    
+                // Add status change handler
+                row.querySelector('.status-select').addEventListener('change', function() {
+                    this.className = `status-select p-1 rounded ${getStatusColor(this.value)}`;
+                    checkReminders();
+                });
+    
+                taskList.appendChild(row);
+                checkReminders();
+            }
+    
+            // Status Color Coding
+            function getStatusColor(status) {
+                const colors = {
+                    pending: 'bg-yellow-100 text-yellow-800',
+                    'in-progress': 'bg-blue-100 text-blue-800',
+                    completed: 'bg-green-100 text-green-800'
+                };
+                return colors[status] || '';
+            }
+    
+            // Simple Reminder System
+            function checkReminders() {
+                const now = new Date();
+                document.querySelectorAll('#task-list tr').forEach(row => {
+                    const dueDate = new Date(row.cells[2].textContent);
+                    const status = row.querySelector('.status-select').value;
+                    
+                    if (status === 'pending' && dueDate - now < 3600000) { // 1 hour before
+                        alert(`Task "${row.cells[0].textContent}" is due soon!`);
+                    }
+                });
+            }
+        </script>
+        
+          <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        const toggleButton = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-right-64');
+            sidebar.classList.toggle('right-0');
+        });
+    </script>
+     </div>
+</body>
+</html>
