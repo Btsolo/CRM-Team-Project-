@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\TaskStatus;
+use App\Enum\TaskPriority;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTaskRequest extends FormRequest
@@ -11,7 +14,7 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,14 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required','max:255',Rule::unique('customers')],
+            'description' => ['required','max:1000','string'],
+            'user_id' => ['required',Rule::exists('users','id')],
+            'customer_id' => ['nullable',Rule::exists('customers','id')],
+            'status' => ['required',Rule::in(array_column(TaskStatus::cases(),'value'))],
+            'priority' => ['required',Rule::in(array_column(TaskPriority::cases(),'value'))],
+            'due_date' => ['required'],
+            'completed_at' => ['nullable']
         ];
     }
 }

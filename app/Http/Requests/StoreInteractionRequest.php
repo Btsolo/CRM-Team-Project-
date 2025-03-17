@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\InteractionType;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInteractionRequest extends FormRequest
@@ -11,7 +13,7 @@ class StoreInteractionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,12 @@ class StoreInteractionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_id' => ['required',Rule::exists('clients','id')],
+            'user_id' => ['required',Rule::exists('users','id')],
+            'type' => ['required',Rule::in(array_column(InteractionType::cases(), 'value'))],
+            'subject' => ['required','string','max:255'],
+            'details' => ['nullable','string','max:1000'],
+            'interaction_date' => ['required'],
         ];
     }
 }

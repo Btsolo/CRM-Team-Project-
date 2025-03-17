@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
+use App\Models\Customer;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
@@ -13,7 +15,18 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('user', 'customer')->latest()->paginate(10);
+        $query = Task::with('user', 'customer')->latest()->paginate(10);
+
+        if(request()->filled('search')){
+            $search = request('search');
+            $query->where('title','like',"%{$search}%")
+                  ->orwhereHas('customer',function($q) use($search){
+                    $q->where('first_name','like',"%{$search}%")
+                      ->orwhere('last_name','like',"%{$search}%");
+                  });
+        }
+
+        $tasks = $query->paginate(15);
 
         return view('tasks.index', compact('tasks'));
     }
@@ -23,7 +36,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::orderBy('first_name', 'asc')->get();
+        $customers = Customer::orderBy('first_name', 'asc')->get();
+        
+        return view('tasks.create', compact('users','customers'));
     }
 
     /**
@@ -31,7 +47,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        Task::create($request->validated());
+
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully');
     }
 
     /**
@@ -39,7 +57,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -47,7 +65,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('tasks.edit');
     }
 
     /**
@@ -55,7 +73,9 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->validated());
+
+        return redirect()->route('tasks.index')->with('success','Task edited successfully');
     }
 
     /**
@@ -63,6 +83,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return redirect()->route('tasks.index')->with('success','Task created successfully');
     }
 }

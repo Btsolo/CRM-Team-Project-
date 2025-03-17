@@ -60,15 +60,20 @@
         <table class="min-w-full bg-white border border-gray-200">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="p-3 text-left text-sm font-semibold text-gray-700">Task Name</th>
+                    <th class="p-3 text-left text-sm font-semibold text-gray-700">Title</th>
                     <th class="p-3 text-left text-sm font-semibold text-gray-700">Assigned To</th>
                     <th class="p-3 text-left text-sm font-semibold text-gray-700">Due Date</th>
                     <th class="p-3 text-left text-sm font-semibold text-gray-700">Status</th>
                 </tr>
             </thead>
-            <tbody id="task-list">
-                <!-- Tasks will be added here dynamically -->
+            @foreach ($tasks as $task )
+            <tbody class="divide-y divide-gray-200">
+               <td>{{ $task->title }}</td>
+               <td>{{ $task->user->first_name. ' ' .$task->user->last_name }}</td>
+               <td>{{ $task->due_date }}</td>
+               <td>{{ $task->status }}</td>
             </tbody>
+            @endforeach
         </table>
     </div>
 </section>
