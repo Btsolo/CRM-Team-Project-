@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Main Content -->
+@if (session('success'))
+    <x-flash-message/>
+@endif
 <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
 
     <!--Task creation form-->

@@ -15,13 +15,18 @@ class InteractionController extends Controller
      */
     public function index()
     {
-        $query = Interaction::with('user','customer')->get();
+        $query = Interaction::with('user','customer')->latest();
 
         if(request()->filled('search')){
             $search = request('search');
-            $query->where('first_name','like',"%{$search}%")
-                  ->orwhere('last_name','like',"%{$search}%")
-                  ->orwhere('subject','like',"%{$search}%");
+            $query->whereHas('customer',function ($q) use($search){
+                $q->where('first_name','like',"%{$search}%")
+                  ->orWhere('last_name','like',"%{$search}%");
+            })
+            ->orWhereHas('user',function ($q) use($search){
+                $q->where('first_name','like',"%{$search}%")
+                  ->orWhere('last_name','like',"%{$search}%");
+            });
         }
 
         $interactions = $query->paginate(15);

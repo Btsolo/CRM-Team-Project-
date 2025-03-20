@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Customer;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Notifications\TaskAssigned;
 
 class TaskController extends Controller
 {
@@ -15,11 +16,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $query = Task::with('user', 'customer')->latest()->paginate(10);
+        $query = Task::with('user', 'customer')->latest();
 
         if(request()->filled('search')){
             $search = request('search');
-            $query->where('title','like',"%{$search}%")
+            $query->where('tasks.title','like',"%{$search}%")
                   ->orwhereHas('customer',function($q) use($search){
                     $q->where('first_name','like',"%{$search}%")
                       ->orwhere('last_name','like',"%{$search}%");
@@ -47,7 +48,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        Task::create($request->validated());
+        $task = Task::create($request->validated());
+
+        $task->user->notify(new TaskAssigned($task));
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully');
     }

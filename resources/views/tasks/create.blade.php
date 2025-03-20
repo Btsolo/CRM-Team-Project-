@@ -1,18 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
 <form method="POST" action="{{ route('tasks.store') }}">
     @csrf
     <!-- Name -->
     <div>
-        <x-input-label for="title" :value="__('Task Title')" />
-        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required autofocus autocomplete="name" />
+        <x-input-label for="title" :value="__('Title')" />
+        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required />
         <x-input-error :messages="$errors->get('title')" class="mt-2" />
     </div>
 
     <div class="mt-4">
         <x-input-label for="description" :value="__('Description')" />
-        <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" :value="old('description')" required autofocus autocomplete="description" />
+        <textarea name="description" id="description"  class="w-full block rounded-md shadow-sm border-gray-300">{{old('description')}}</textarea>
         <x-input-error :messages="$errors->get('description')" class="mt-2" />
     </div>
 
@@ -46,10 +47,12 @@
     <div class="mt-4">
         <x-input-label for="due_date" :value="__('Due Date')" />
 
-        <input id="due_date" class="block mt-1 w-full"
+        <input id="due_date" class="mt-1 w-full block font-medium text-sm text-gray-700 dark:text-gray-300 rounded-md shadow-sm"
                         type="datetime-local"
                         name="due_date"
-                        required autocomplete="due_date" />
+                        :value="old('due_date')"
+                        required autocomplete="due_date"
+                         />
 
         <x-input-error :messages="$errors->get('due_date')" class="mt-2" />
     </div>
@@ -57,10 +60,11 @@
     <div class="mt-4">
         <x-input-label for="completed_at" :value="__('Completed At')" />
 
-        <input id="completed_at" class="block mt-1 w-full"
+        <input id="completed_at" class="mt-1 w-full block font-medium text-sm text-gray-700 dark:text-gray-300 rounded-md shadow-sm"
                         type="datetime-local"
                         name="completed_at"
-                        required autocomplete="completed_at" />
+                        :value="old('completed_at')"
+                         />
 
         <x-input-error :messages="$errors->get('completed_at')" class="mt-2" />
     </div>
@@ -74,7 +78,7 @@
             <select name="customer_id" id="customer_id" class = "mt-1 w-full block rounded-md shadow-sm border-gray-300">
                 <option value="">...</option>
                 @foreach ($customers as $customer )
-                    <option value="{{ $customer }}" {{old('customer') == $customer ? 'selected' : ''}} >{{ ucfirst($customer->first_name. ' '. $customer->last_name) }}</option>
+                    <option value="{{ $customer->id }}" {{old('customer') == $customer ? 'selected' : ''}} >{{ ucfirst($customer->first_name. ' '. $customer->last_name) }}</option>
                 @endforeach
             </select>
     
@@ -87,7 +91,7 @@
             <select name="user_id" id="user_id" class = "mt-1 w-full block rounded-md shadow-sm border-gray-300">
                 <option value="">...</option>
                 @foreach ($users as $user )
-                    <option value="{{ $user }}" {{old('user') == $user ? 'selected' : ''}} >{{ $user->first_name. ' ' .$user->last_name }}</option>
+                    <option value="{{ $user->id }}" {{old('user') == $user ? 'selected' : ''}} >{{ $user->first_name. ' ' .$user->last_name }}</option>
                 @endforeach
             </select>
     
@@ -95,9 +99,9 @@
         </div>
     </div>
         
+    <x-primary-button class="mt-2">
+        {{ __('Create') }}
+    </x-primary-button>
         </form>
 
-        <x-primary-button class="mt-2">
-            {{ __('Create') }}
-        </x-primary-button>
 @endsection

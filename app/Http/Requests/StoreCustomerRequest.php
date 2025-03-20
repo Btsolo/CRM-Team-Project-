@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enum\CustomerIndustry;
 use App\Enum\CustomerStatus;
 use App\Enum\CustomerTag;
+use App\Enum\CustomerType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,6 +33,7 @@ class StoreCustomerRequest extends FormRequest
             'phone_number' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:15'],
             'company_name' => ['required','string','max:255'],
             'industry' => ['nullable',Rule::in(array_column(CustomerIndustry::cases(),'value'))],
+            'customer_type' => ['nullable',Rule::in(array_column(CustomerType::cases(),'value'))],
             'tags' => ['nullable', Rule::in(array_column(CustomerTag::cases(), 'value'))],
             'status' => ['required', Rule::in(array_column(CustomerStatus::cases(), 'value'))]
         ];

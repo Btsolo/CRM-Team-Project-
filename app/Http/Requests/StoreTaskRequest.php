@@ -25,7 +25,7 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required','max:255',Rule::unique('customers')],
+            'title' => ['required','max:255',Rule::unique('tasks')],
             'description' => ['required','max:1000','string'],
             'user_id' => ['required',Rule::exists('users','id')],
             'customer_id' => ['nullable',Rule::exists('customers','id')],

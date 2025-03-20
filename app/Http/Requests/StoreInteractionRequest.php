@@ -24,7 +24,7 @@ class StoreInteractionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => ['required',Rule::exists('clients','id')],
+            'customer_id' => ['required',Rule::exists('customers','id')],
             'user_id' => ['required',Rule::exists('users','id')],
             'type' => ['required',Rule::in(array_column(InteractionType::cases(), 'value'))],
             'subject' => ['required','string','max:255'],

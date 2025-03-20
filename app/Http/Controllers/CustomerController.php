@@ -13,8 +13,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        $columns  = ['first_name','last_name','email','phone_number','customer_type','status'];
         $query = Customer::latest();
-
         if(request()->filled('search')){
             $search = request('search');
             $query->where('first_name','like',"%{$search}%")
@@ -23,8 +23,7 @@ class CustomerController extends Controller
         }
 
         $customers = $query->paginate(15);
-
-        return view('customers.index', compact('customers'));
+        return view('customers.index', compact('customers','columns'));
     }
 
     /**
