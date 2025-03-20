@@ -13,9 +13,17 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::latest()->paginate(10);
+        $columns  = ['first_name','last_name','email','phone_number','customer_type','status'];
+        $query = Customer::latest();
+        if(request()->filled('search')){
+            $search = request('search');
+            $query->where('first_name','like',"%{$search}%")
+                  ->orWhere('last_name','like',"%{$search}%")
+                  ->orWhere('email','like',"%{$search}%");
+        }
 
-        return view('customers.index', compact('customers'));
+        $customers = $query->paginate(15);
+        return view('customers.index', compact('customers','columns'));
     }
 
     /**
@@ -23,7 +31,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -31,7 +39,9 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        //
+        Customer::create($request->validated());
+
+        return redirect()->route('customers.index')->with('success', 'Customer created successfully');
     }
 
     /**
@@ -39,7 +49,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return view('customers.show',compact('customer'));
     }
 
     /**
@@ -47,7 +57,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit',compact('customer'));
     }
 
     /**
@@ -55,7 +65,9 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        //
+        $customer->update($request->validated());
+
+        return redirect()->route('customers.index')->with('success','Cutomer Edited Successfully');
     }
 
     /**
@@ -63,6 +75,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return redirect()->route('customers.index')->with('success','Customer deleted successfully');
     }
 }

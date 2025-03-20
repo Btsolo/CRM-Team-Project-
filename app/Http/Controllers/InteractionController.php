@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Interaction;
 use App\Http\Requests\StoreInteractionRequest;
 use App\Http\Requests\UpdateInteractionRequest;
+use App\Models\Customer;
+use App\Models\User;
 
 class InteractionController extends Controller
 {
@@ -13,7 +15,21 @@ class InteractionController extends Controller
      */
     public function index()
     {
-        $interactions = Interaction::with('user','customer')->latest()->paginate(15);
+        $query = Interaction::with('user','customer')->latest();
+
+        if(request()->filled('search')){
+            $search = request('search');
+            $query->whereHas('customer',function ($q) use($search){
+                $q->where('first_name','like',"%{$search}%")
+                  ->orWhere('last_name','like',"%{$search}%");
+            })
+            ->orWhereHas('user',function ($q) use($search){
+                $q->where('first_name','like',"%{$search}%")
+                  ->orWhere('last_name','like',"%{$search}%");
+            });
+        }
+
+        $interactions = $query->paginate(15);
 
         return view('interactions.index', compact('interactions'));
     }
@@ -23,7 +39,9 @@ class InteractionController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::orderBy('first_name', 'asc')->get();
+        $customers = Customer::orderBy('first_name', 'asc')->get();
+        return view('interactions.create', compact('users','customers'));
     }
 
     /**
@@ -31,7 +49,9 @@ class InteractionController extends Controller
      */
     public function store(StoreInteractionRequest $request)
     {
-        //
+        Interaction::create($request->validated());
+
+        return redirect()->route('interactions.index')->with('success','Interaction created successfully');
     }
 
     /**
@@ -39,7 +59,7 @@ class InteractionController extends Controller
      */
     public function show(Interaction $interaction)
     {
-        //
+        return view('interactions.show',compact('interaction'));
     }
 
     /**
@@ -47,7 +67,7 @@ class InteractionController extends Controller
      */
     public function edit(Interaction $interaction)
     {
-        //
+        return view('interactions.edit',compact('interaction'));
     }
 
     /**
@@ -55,7 +75,9 @@ class InteractionController extends Controller
      */
     public function update(UpdateInteractionRequest $request, Interaction $interaction)
     {
-        //
+        $interaction->update($request->validated());
+
+        return redirect()->route('interactions.index')->with('success','Interaction edited successfully');
     }
 
     /**
@@ -63,6 +85,8 @@ class InteractionController extends Controller
      */
     public function destroy(Interaction $interaction)
     {
-        //
+        $interaction->delete();
+
+        return redirect()->route('interactions.index')->with('success','Interaction deleted successfully');
     }
 }

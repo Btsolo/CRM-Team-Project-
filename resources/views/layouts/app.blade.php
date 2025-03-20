@@ -58,9 +58,10 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('dashboard') }}" class="block p-2 hover:bg-gray-700 rounded">Dashboard</a></li>
                         <li><a href="{{ route('customers.index') }}" class="block p-2 hover:bg-gray-700 rounded">Customers</a></li>
-                        <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
+                        <li><a href="{{ route('projects.index') }}" class="block p-2 hover:bg-gray-700 rounded">Projects</a></li>
                         <li><a href="{{ route('tasks.index') }}" class="block p-2 hover:bg-gray-700 rounded">Task Tracking</a></li>
                         <li><a href="{{ route('interactions.index') }}" class="block p-2 hover:bg-gray-700 rounded">Interaction Tracking</a></li>
+                        <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
                         <li><a href="{{ route('contacts') }}" class="block p-2 hover:bg-gray-700 rounded">Contact</a></li>
                     </ul>
                 </nav>

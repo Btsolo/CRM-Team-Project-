@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Main Content -->
+@if (session('success'))
+    <x-flash-message/>
+@endif
 <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
 
     <div class="container mx-auto p-6">
@@ -22,26 +24,25 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Customer</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Date</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Interaction DateTime</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Type</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Notes</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Subject</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
+                    @foreach ($interactions as $interaction )
                     <tr>
-                        <td class="px-6 py-4">John Doe</td>
-                        <td class="px-6 py-4">2023-10-01</td>
-                        <td class="px-6 py-4"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">Call</span></td>
-                        <td class="px-6 py-4">Discussed new project requirements</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4">Jane Smith</td>
-                        <td class="px-6 py-4">2023-10-02</td>
-                        <td class="px-6 py-4"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Email</span></td>
-                        <td class="px-6 py-4">Sent proposal documents</td>
-                    </tr>
+                        <td class="px-6 py-4">{{$interaction->customer->first_name. ' ' . $interaction->customer->last_name}}</td>
+                        <td class="px-6 py-4">{{ $interaction->interaction_date }}</td>
+                        <td class="px-6 py-4"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">{{ucfirst($interaction->type) }}</span></td>
+                        <td class="px-6 py-4">{{ $interaction->subject }}</td>
+                    </tr> 
+                    @endforeach
                 </tbody>
             </table>
+            <div class="mt-2">
+                {{ $interactions->links() }}
+            </div>
         </div>
     </div>
     

@@ -12,6 +12,7 @@ class Interaction extends Model
     /** @use HasFactory<\Database\Factories\InteractionFactory> */
     use HasFactory, SoftDeletes;
 
+    protected $table = 'interactions';
     protected $fillable = [
         'customer_id',
         'user_id',
