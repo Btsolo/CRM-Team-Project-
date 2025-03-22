@@ -56,28 +56,6 @@
         </div>
         </div>
     </section>
-    <!--Feedback form-->
-    <section class="mb-4 ">
-        <h3 class="text-gray-800 text-bold text-2xl mb-4">Feedback Form</h3>
-        <form action="" method="POST" class="space-y-4">
-            <!--name-->
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium">Name</label>
-                <input type="text" name="name" id="name" maxlength="40" placeholder="Name" class="w-[300px] p-2 border border-gray-400 rounded-md" required/>
-            </div>
-            <div>
-                <label for="email" class="block text-sm font-medium">Email</label>
-                <input type="email" name="Email" id="Email" placeholder="Email" class=" block w-[400px] p-2 border border-gray-400 rounded-md">
-            </div>
-            <!--feedback text area-->
-            <div>
-                <label for="feedback" class="block text-sm font-medium">Feedback</label>
-                <textarea name="feedback" id="feedback" placeholder="Type your Feedback here" class="w-[400px] h-[200px] p-2 border border-gray-400 rounded-md" required></textarea>
-            </div>
-            <div>
-                <button type="submit" class="bg-gray-600 text-white p-2 rounded-md">Submit</button>
-            </div>
-    </section>
 </div>
  </main>
 @endsection

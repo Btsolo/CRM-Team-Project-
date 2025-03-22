@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Mail\TaskStatusMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,Notifiable;
 
     protected $fillable = [
         'title',
@@ -31,5 +34,18 @@ class Task extends Model
     public function customer():BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($task) {
+            if (in_array($task->status, ['completed', 'cancelled'])) {
+                $user = $task->assignedToUser;
+                if ($user) {
+                    Mail::to($user->email)->send(new TaskStatusMail($task));
+                }
+            }
+        });
     }
 }

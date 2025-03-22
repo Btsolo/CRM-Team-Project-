@@ -74,7 +74,9 @@ class InteractionPolicy
      */
     public function forceDelete(User $user, Interaction $interaction): Response
     {
-        return Response::deny('Interactions cannot be permanently deleted');
+        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER])
+        ?Response::allow()
+        :Response::deny('You do not have permission to forcedelete tasks');
     }
     
 }

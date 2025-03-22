@@ -30,7 +30,7 @@ class StoreCustomerRequest extends FormRequest
             'first_name' => ['required','string','max:255'],
             'last_name' => ['required','string','max:255'],
             'email' => ['required','email','lowercase'],
-            'phone_number' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:15'],
+            'phone_number' => ['required', 'string','min:10', 'max:15'],
             'company_name' => ['required','string','max:255'],
             'industry' => ['nullable',Rule::in(array_column(CustomerIndustry::cases(),'value'))],
             'customer_type' => ['nullable',Rule::in(array_column(CustomerType::cases(),'value'))],

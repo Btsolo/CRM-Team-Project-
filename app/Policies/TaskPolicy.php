@@ -75,6 +75,8 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): Response
     {
-        return Response::deny('Tasks cannot be deleted permanently');
+        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER])
+        ?Response::allow()
+        :Response::deny('You do not have permission to forcedelete tasks');
     }
 }
