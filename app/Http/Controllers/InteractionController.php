@@ -15,23 +15,29 @@ class InteractionController extends Controller
      */
     public function index()
     {
+        $columns = ['customer_id','type','subject','details','interaction_date'];
         $query = Interaction::with('user','customer')->latest();
-
-        if(request()->filled('search')){
+        if (request()->filled('search')) {
             $search = request('search');
-            $query->whereHas('customer',function ($q) use($search){
-                $q->where('first_name','like',"%{$search}%")
-                  ->orWhere('last_name','like',"%{$search}%");
-            })
-            ->orWhereHas('user',function ($q) use($search){
-                $q->where('first_name','like',"%{$search}%")
-                  ->orWhere('last_name','like',"%{$search}%");
-            });
+            $query->where('subject', 'like', "%{$search}%")
+                  ->orWhere('details', 'like', "%{$search}%")
+                  ->orWhereHas('customer', function ($q) use ($search) {
+                      $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%");
+                  });
+        }
+        
+        if (request()->has('trashed')) {
+            $query->onlyTrashed();
         }
 
         $interactions = $query->paginate(15);
 
-        return view('interactions.index', compact('interactions'));
+        return view('interactions.index', compact('interactions','columns'));
     }
 
     /**
@@ -66,8 +72,10 @@ class InteractionController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Interaction $interaction)
-    {
-        return view('interactions.edit',compact('interaction'));
+    { 
+        $users = User::orderBy('first_name', 'asc')->get();
+        $customers = Customer::orderBy('first_name', 'asc')->get();
+        return view('interactions.edit',compact('interaction','users','customers'));
     }
 
     /**
@@ -89,4 +97,19 @@ class InteractionController extends Controller
 
         return redirect()->route('interactions.index')->with('success','Interaction deleted successfully');
     }
+    public function restore($id)
+{
+    $interaction = Interaction::onlyTrashed()->findOrFail($id);
+    $interaction->restore();
+
+    return redirect()->route('interactions.index')->with('success', 'Interaction restored successfully');
+}
+public function forceDelete($id)
+{
+    $interaction = Interaction::onlyTrashed()->findOrFail($id);
+    $interaction->forceDelete();
+
+    return redirect()->route('interactions.index')->with('success', 'Interaction permanently deleted');
+}
+
 }

@@ -22,7 +22,7 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
-        $clients = Customer::pluck('id')->toArray();
+        $customers = Customer::pluck('id')->toArray();
         return [
             'name' => fake()->words(3,true),
             'description' => fake()->paragraph(3,true),
@@ -39,7 +39,7 @@ class ProjectFactory extends Factory
                 }
             } ,
             'notes' => fake()->paragraph(3, true),
-            'client_id' => Arr::random($clients)
+            'customer_id' => Arr::random($customers)
         ];
     }
 }

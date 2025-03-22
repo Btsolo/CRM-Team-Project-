@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="mb-6">
+    <a href="{{ route('interactions.index') }}" class="text-blue-600 hover:text-blue-800">
+        &larr; Back to Interactions
+    </a>
+</div>
 <form method="POST" action="{{ route('interactions.store') }}">
     @csrf
     <!-- Name -->

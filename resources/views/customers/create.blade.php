@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="mb-6">
+    <a href="{{ route('customers.index') }}" class="text-blue-600 hover:text-blue-800">
+        &larr; Back to Customers
+    </a>
+</div>
 <form method="POST" action="{{ route('customers.store') }}">
     @csrf
     <!-- Name -->
@@ -30,6 +35,7 @@
         <x-text-input id="phone_number" class="block mt-1 w-full"
                         type="text"
                         name="phone_number"
+                        :value="old('phone_number')"
                         required autocomplete="new-phone_number" />
 
         <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
@@ -41,6 +47,7 @@
 
         <x-text-input id="company_name" class="block mt-1 w-full"
                         type="text"
+                        :value="old('company_name')"
                         name="company_name" required autocomplete="new-password" />
 
         <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
@@ -102,7 +109,7 @@
     </div>
 
         <x-primary-button class="mt-2">
-            {{ __('Create') }}
+            {{ __('Save') }}
         </x-primary-button>
 
 </form>

@@ -74,6 +74,8 @@ class CustomerPolicy
      */
     public function forceDelete(User $user, Customer $customer): Response
     {
-        return Response::deny('Customers cannot be permanently deleated');
+        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER])
+        ?Response::allow()
+        :Response::deny('You do not have permission to forcedelete tasks');
     }
 }

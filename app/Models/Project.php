@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Mail\ProjectStatusMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,Notifiable;
 
     protected $fillable = [
         'name',
@@ -24,7 +27,7 @@ class Project extends Model
         'budget',
         'actual_cost',
         'notes',
-        'client_id'
+        'customer_id'
     ];
     
     public function customer(): BelongsTo
@@ -35,5 +38,18 @@ class Project extends Model
     public function task(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($project) {
+            if (in_array($project->status, ['completed', 'cancelled'])) {
+                $manager = $project->manager;
+                if ($manager) {
+                    Mail::to($manager->email)->send(new ProjectStatusMail($project));
+                }
+            }
+        });
     }
 }
