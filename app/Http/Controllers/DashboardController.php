@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Project;
@@ -18,6 +19,15 @@ class DashboardController extends Controller
         $recentInteractions = Interaction::latest()->limit(3)->get();
         $projects = Project::latest()->take(5)->get();
         $user = Auth::user();
-        return view('dashboard', compact('totalCustomers', 'pendingTasks', 'recentInteractions','projects','user'));
+        $growthRate = Project::whereBetween('created_at', [now()->subMonths(6), now()])->count() /
+              max(1, Project::whereBetween('created_at', [now()->subMonths(12), now()->subMonths(6)])->count()) * 100 - 100;
+
+$taskCompletionRate = Task::whereNotNull('completed_at')
+    ->whereBetween('completed_at', [now()->subMonths(6), now()])
+    ->count() / max(1, Task::whereBetween('completed_at', [now()->subMonths(12), now()->subMonths(6)])->count()) * 100 - 100;
+
+$interactionStability = Interaction::whereBetween('created_at', [now()->subMonths(6), now()])->count() -
+                        Interaction::whereBetween('created_at', [now()->subMonths(12), now()->subMonths(6)])->count();
+        return view('dashboard', compact('totalCustomers', 'pendingTasks', 'recentInteractions','projects','user','growthRate', 'taskCompletionRate', 'interactionStability'));
     }
 }

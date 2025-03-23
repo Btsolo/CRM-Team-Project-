@@ -82,10 +82,17 @@
         </ul>
     </div>
 
-    <!-- Revenue Trends -->
+ 
     <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-gray-500 text-sm font-medium mb-4">Revenue Trends (Last 6 months)</h3>
-        <canvas id="revenueChart"></canvas>
+        <h3 class="text-gray-500 text-sm font-medium mb-4">Mini Analysis</h3>
+        <p class="text-gray-600 text-sm">
+            Over the last 6 months, there has been a steady increase in project completion rates, with a 
+            <span class="text-green-600 font-bold">{{ $growthRate }}%</span> growth compared to the previous period.  
+            Task completion has shown a {{ $taskCompletionRate > 0 ? 'positive' : 'negative' }} trend, indicating 
+            {{ $taskCompletionRate > 0 ? 'improved productivity' : 'a need for better task management' }}.  
+            Customer interactions have remained {{ $interactionStability > 0 ? 'consistent' : 'fluctuating' }}, suggesting 
+            {{ $interactionStability > 0 ? 'strong engagement' : 'potential gaps in follow-ups' }}.
+        </p>
     </div>
 
 </main>

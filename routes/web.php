@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
 
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 });
 
 require __DIR__.'/auth.php';
