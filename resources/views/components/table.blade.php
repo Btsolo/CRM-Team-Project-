@@ -9,15 +9,21 @@
     'routeDelete',
     'csv'
 ])
-<div class="flex justify-end">
-    <a href="{{ route($routeCreate) }}"
-        class="bg-gray-600 text-white px-4 py-2 rounded-md hover:text-blue-700">{{ $linkName }}</a>
-</div>
+   @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
+    <div class="flex justify-end">
+        <a href="{{ route($routeCreate) }}"
+            class="bg-gray-600 text-white px-4 py-2 rounded-md hover:text-blue-700">{{ $linkName }}</a>
+    </div>
+    
+    @endif
 <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ $tableTitle }}</h2>
 <div class="overflow-x-auto">
+   @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
     <div class="flex justify-end mb-2">
         <a href="{{ route($csv) }}" class="btn btn-success">Export to Excel</a>
     </div>
+    
+    @endif
     <table class="min-w-full bg-white border border-gray-200">
         <thead>
             <tr class="bg-gray-100">
@@ -32,6 +38,8 @@
                     @foreach ($columns as $column)
                         <td class="p-3 text-sm text-gray-700">{{ $row->$column }}</td>
                     @endforeach
+                   @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
+    
                     <td class="p-3 text-sm text-gray-700">
                         <div class="flex justify-evenly space-x-1">
                             <a href="{{ route($routeView, $row->id) }}">
@@ -70,6 +78,7 @@
                         </div>
 
                     </td>
+                    @endif
                 </tr>
             @empty
                 <tr>

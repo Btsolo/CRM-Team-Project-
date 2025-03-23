@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
     Route::resource('interactions', InteractionController::class);
     Route::resource('projects',ProjectController::class);
+    Route::resource('users',UserController::class);
     
     Route::get('/contact', function(){
         return view('contact');
@@ -40,18 +42,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/interactions/{id}/force-delete', [InteractionController::class, 'forceDelete'])->name('interactions.forceDelete');
 
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
-Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
-Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.forceDelete');
+    Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+    Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.forceDelete');
 
-Route::get('customers/download', [CustomerController::class, 'generateCsv'])->name('customers.download');
-Route::get('tasks/download', [TaskController::class, 'generateCsv'])->name('tasks.download');
-Route::get('interactions/download', [InteractionController::class, 'generateCsv'])->name('interactions.download');
-Route::get('projects/download', [ProjectController::class, 'generateCsv'])->name('projects.download');
+    Route::get('customers/download', [CustomerController::class, 'generateCsv'])->name('customers.download');
+    Route::get('tasks/download', [TaskController::class, 'generateCsv'])->name('tasks.download');
+    Route::get('interactions/download', [InteractionController::class, 'generateCsv'])->name('interactions.download');
+    Route::get('projects/download', [ProjectController::class, 'generateCsv'])->name('projects.download');
+    Route::get('users/download', [ProjectController::class, 'generateCsv'])->name('users.download');
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
+
 });
 
 require __DIR__.'/auth.php';

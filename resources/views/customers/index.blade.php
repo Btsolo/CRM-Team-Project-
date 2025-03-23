@@ -20,7 +20,7 @@
                     >
                 
                     <!-- Customer Type Filter -->
-                    <select name="customer_type" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                    <select name="customer_type" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 w-32">
                         <option value="">All Types</option>
                         @foreach (\App\Enum\CustomerType::cases() as $customer_type )
                         <option value="{{ $customer_type->value }}" {{old('customer_type') == $customer_type->value ? 'selected' : ''}} >{{ ucfirst($customer_type->value) }}</option>
@@ -28,7 +28,7 @@
                     </select>
                 
                     <!-- Status Filter -->
-                    <select name="status" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                    <select name="status" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 w-32">
                         <option value="">All Statuses</option>
                         @foreach (\App\Enum\CustomerStatus::cases() as $status )
                         <option value="{{ $status->value }}" {{old('status') == $status->value ? 'selected' : ''}} >{{ ucfirst($status->value) }}</option>

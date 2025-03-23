@@ -14,9 +14,9 @@ class TaskPolicy
      */
     public function viewAny(User $user): Response
     {
-        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER]) || Task::where('user_id',$user->id)->exists()
-        ?Response::allow()
-        :Response::deny('You do not have permission to view this tasks');
+        return
+        Response::allow();
+        
     }
 
     /**
@@ -24,10 +24,9 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): Response
     {
-        return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_MANAGER]) 
-        || $user->id === $task->user_id
-        ?Response::allow()
-        :Response::deny('You do not have permission to view this task');
+        return
+        Response::allow();
+        
     }
 
     /**
