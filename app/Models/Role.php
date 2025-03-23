@@ -11,7 +11,7 @@ class Role extends Model
 {
     //
 
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     public const IS_ADMIN = 1;
     public const IS_MANAGER = 2;
     public const IS_USER = 3;

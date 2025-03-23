@@ -14,9 +14,9 @@ class ProjectPolicy
      */
     public function viewAny(User $user): Response
     {
-        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER])
-        ?Response::allow()
-        :Response::deny('You do not have permission to view projects');
+        return 
+        Response::allow()
+        ;
     }
 
     /**
@@ -24,9 +24,9 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): Response
     {
-        return in_array($user->role_id,[Role::IS_ADMIN,Role::IS_MANAGER])
-        ?Response::allow()
-        :Response::deny('You do not have permission to view project');
+        return 
+        Response::allow()
+        ;
     }
 
     /**

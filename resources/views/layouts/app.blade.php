@@ -26,14 +26,32 @@
             
             <!-- User Profile Dropdown -->
             <div class="relative">
-                <button id="user-menu-btn" class="flex items-center space-x-2 focus:outline-none">
-                    <span>User</span>
-                    <img src="/Images/userProfile_icon.png" alt="User Icon" class="w-8 h-8 rounded-full">
+                <button id="user-menu-btn" class="inline-flex items-center min-w-[150px] px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                    <div class="text-black dark:text-white truncate">{{ Auth::user()->first_name.' '.Auth::user()->last_name }}</div>
+                    <div class="ms-1">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
                 </button>
+                
+                
+
+
                 <div id="user-menu" class="hidden absolute right-0 mt-2 bg-white text-gray-800 shadow-lg rounded-md w-48 py-2">
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+    
+                        <x-dropdown-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -47,11 +65,14 @@
             <nav>
                 <ul class="space-y-2">
                     <li><a href="{{ route('dashboard') }}" class="block p-2 hover:bg-gray-700 rounded">Dashboard</a></li>
+                    @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
                     <li><a href="{{ route('customers.index') }}" class="block p-2 hover:bg-gray-700 rounded">Customers</a></li>
+                    <li><a href="{{ route('interactions.index') }}" class="block p-2 hover:bg-gray-700 rounded">Interactions</a></li>
+                    <li><a href="{{ route('users.index') }}" class="block p-2 hover:bg-gray-700 rounded">Users</a></li>
+                    <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
+                    @endif
                     <li><a href="{{ route('projects.index') }}" class="block p-2 hover:bg-gray-700 rounded">Projects</a></li>
                     <li><a href="{{ route('tasks.index') }}" class="block p-2 hover:bg-gray-700 rounded">Tasks</a></li>
-                    <li><a href="{{ route('interactions.index') }}" class="block p-2 hover:bg-gray-700 rounded">Interactions</a></li>
-                    <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Analytics</a></li>
                     <li><a href="{{ route('contacts') }}" class="block p-2 hover:bg-gray-700 rounded">Contact</a></li>
                 </ul>
             </nav>

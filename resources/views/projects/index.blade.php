@@ -6,7 +6,9 @@
 @endif
 <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
 <section class="mb-8">
+    @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
     <x-active-trashed-filter route="projects.index"/>
+    @endif
     <form method="GET" action="{{ route('projects.index') }}" class="mb-4 flex flex-wrap gap-2">
         <!-- Search Input -->
         <input 
@@ -19,7 +21,7 @@
         >
     
         <!-- Status Filter -->
-        <select name="status" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+        <select name="status" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 w-32">
             <option value="">All Statuses</option>
             @foreach (\App\Enum\ProjectStatus::cases() as $status )
             <option value="{{ $status->value }}" {{ old('status') == $status->value ? 'selected' : '' }}>{{ ucfirst($status->value) }}</option>
@@ -27,7 +29,7 @@
         </select>
     
         <!-- Priority Filter -->
-        <select name="priority" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+        <select name="priority" class="rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 w-32">
             <option value="">All Priorities</option>
             @foreach (\App\Enum\ProjectPriority::cases() as $priority )
                 <option value="{{ $priority->value }}" {{ old('priority') == $priority->value ? 'selected' : '' }}>{{ ucfirst($priority->value) }}</option>

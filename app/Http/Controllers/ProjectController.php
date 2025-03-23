@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Project;
 use App\Models\Customer;
+use App\Mail\ProjectCreated;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Mail\ProjectCreated;
-use App\Models\User;
 use App\Notifications\ProjectAssignedNotification;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -21,6 +22,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewANy',Project::class);
         $columns = ['name', 'status', 'priority', 'start_date', 'budget'];
         $query = Project::with(['customer'])->latest();
     
@@ -49,6 +51,9 @@ class ProjectController extends Controller
         $statuses = Project::select('status')->distinct()->pluck('status');
         $priorities = Project::select('priority')->distinct()->pluck('priority');
     
+        $projects = Cache::remember('projects',now()->addWeeks(2),function (){
+            return Project::all();
+        });
         $projects = $query->paginate(15);
     
         return view('projects.index', compact('projects', 'columns', 'statuses', 'priorities'));
@@ -72,10 +77,11 @@ class ProjectController extends Controller
     {
     
         $this->authorize('create', Project::class);
+        Cache::forget('projects');
         $project = Project::create($request->validated());
         $customer = Customer::where('id', $request->customer_id)->firstOrFail();
         $createdBy = Auth::user() ?? new User();
-        Mail::to($customer->email)->send(new ProjectCreated($project,$customer,$createdBy));
+        Mail::to($customer->email)->queue(new ProjectCreated($project,$customer,$createdBy));
         return redirect()->route('projects.index')->with('success', 'Project created successfully');
     }
 
@@ -84,6 +90,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $this->authorize('view',$project);
         return view('projects.show',compact('project'));
     }
 
@@ -103,6 +110,7 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $this->authorize('update', $project);
+        Cache::forget('projects');
         $project->update($request->validated());
         return redirect()->route('projects.index')->with('success', 'Project edited successfully');
     }
@@ -116,15 +124,17 @@ class ProjectController extends Controller
         $project->delete();
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully');
     }
-    public function restore($id)
+    public function restore(Project $project,$id)
 {
+    $this->authorize('restore',$project);
     $project = Project::onlyTrashed()->findOrFail($id);
     $project->restore();
 
     return redirect()->route('projects.index')->with('success', 'Project restored successfully');
 }
-public function forceDelete($id)
+public function forceDelete(Project $project,$id)
 {
+    $this->authorize('forceDelete',$project);
     $project = Project::onlyTrashed()->findOrFail($id);
     $project->forceDelete();
 

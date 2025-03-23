@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use App\Models\User;
 use App\Models\Customer;
 use App\Mail\TaskAssigned;
 use App\Services\CsvExportService;
 use Illuminate\Console\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
     public function index()
     {
+        $this->authorize('viewAny',Task::class);
         $columns = ['title', 'status', 'priority', 'due_date'];
         $query = Task::with('user', 'customer')->latest();
     
@@ -63,6 +63,7 @@ class TaskController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',Task::class);
         $users = User::orderBy('first_name', 'asc')->get();
         $customers = Customer::orderBy('first_name', 'asc')->get();
         return view('tasks.create', compact('users','customers'));
@@ -73,13 +74,14 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
+        $this->authorize('create',Task::class);
         $task = Task::create($request->validated());
 
         if($request->has('customer_id') && $request->customer_id){
             $taskFor = $request->has('customer_id') ? Customer::find($request->customer_id) : null;
         }
         $assignedTo = User::where('id', $request->user_id)->firstOrFail();
-        Mail::to($assignedTo->email)->send(new TaskAssigned($task,$assignedTo,$taskFor));
+        Mail::to($assignedTo->email)->queue(new TaskAssigned($task,$assignedTo,$taskFor));
         return redirect()->route('tasks.index')->with('success', 'Task created successfully');
     }
 
@@ -88,6 +90,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $this->authorize('view',$task);
         return view('tasks.show', compact('task'));
     }
 
@@ -96,6 +99,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        $this->authorize('update',$task);
         $customers = Customer::select(['id', 'first_name', 'last_name'])->orderBy('first_name','asc')->get();
         $users = User::select(['id','first_name','last_name'])->orderBy('first_name','asc')->get();
         return view('tasks.edit',compact('task','customers','users'));
@@ -106,6 +110,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
+        $this->authorize('update',$task);
         $task->update($request->validated());
 
         return redirect()->route('tasks.index')->with('success','Task edited successfully');
@@ -116,6 +121,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        $this->authorize('delete',$task);
         $task->delete();
 
         return redirect()->route('tasks.index')->with('success','Task deleted successfully');
@@ -129,8 +135,9 @@ class TaskController extends Controller
     /**
      * Restore a soft deleted task.
      */
-    public function restore($id)
+    public function restore(Task $task,$id)
     {
+        $this->authorize('restore',$task);
         $task = Task::onlyTrashed()->findOrFail($id);
         $task->restore();
         return redirect()->route('tasks.index')->with('success', 'Task restored successfully');
@@ -139,8 +146,9 @@ class TaskController extends Controller
     /**
      * Permanently delete a soft deleted task.
      */
-    public function forceDelete($id)
+    public function forceDelete(Task $task,$id)
     {
+        $this->authorize('forceDelete',$task);
         $task = Task::onlyTrashed()->findOrFail($id);
         $task->forceDelete();
         return redirect()->route('tasks.trash')->with('success', 'Task permanently deleted');

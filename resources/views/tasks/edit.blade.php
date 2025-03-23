@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div>
+<div class="mb-6">
     <a href="{{ route('tasks.index') }}" class="text-blue-600 hover:text-blue-800">
         &larr; Back to Tasks
     </a>
@@ -54,8 +54,7 @@
         <input id="due_date" class="mt-1 w-full block font-medium text-sm text-gray-700 dark:text-gray-300 rounded-md shadow-sm"
                         type="datetime-local"
                         name="due_date"
-                        value="{{old('due_date',$task->due_date)}}"
-                        required autocomplete="due_date"
+                        value="{{ old('due_date', $task->due_date) }}"
                          />
 
         <x-input-error :messages="$errors->get('due_date')" class="mt-2" />

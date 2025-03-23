@@ -10,9 +10,10 @@ class UserController extends Controller
 
     public function index()
     {
+        $columns  = ['first_name', 'last_name', 'email', 'phone_number','role_id'];
         $users = User::latest()->paginate(15);
 
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users','columns'));
     }
 
     /**
