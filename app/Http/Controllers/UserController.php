@@ -10,7 +10,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $columns  = ['first_name', 'last_name', 'email', 'phone_number','role_id'];
+        $columns  = ['first_name', 'last_name', 'email','role_id'];
         $users = User::latest()->paginate(15);
 
         return view('users.index', compact('users','columns'));
@@ -29,10 +29,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($request->validated());
-
-        return redirect()->route('users.index')->with('success','User created successfully');
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',	
+            'role_id' => 'required|integer|exists:roles,id',
+        ]);
+    
+        // Hash the password before saving
+        $validatedData['password'] = bcrypt($validatedData['password']);
+    
+        // Create the user
+        User::create($validatedData);
+    
+        return redirect()->route('users.index')->with('success', 'User created successfully');
     }
+    public function show(User $user)
+{
+    return view('users.show', compact('user'));
+}
 
     public function edit(User $user)
     {
@@ -44,9 +60,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->validated());
-
-        return redirect()->route('users.index')->with('success','User created successfully');
+        $validatedData = $request->validate([
+            'role_id' => 'required|integer|exists:roles,id',
+        ]);
+    
+        $user->update($validatedData);
+    
+        return redirect()->route('users.index')->with('success', 'User role updated successfully');
     }
 
     /**
@@ -58,4 +78,5 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
+    
 }

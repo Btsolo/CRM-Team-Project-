@@ -17,6 +17,33 @@ use App\Models\Task;
 class TaskController extends Controller
 {
     use AuthorizesRequests;
+    protected $csvExportService;
+
+    public function __construct(CsvExportService $csvExportService)
+    {
+        $this->csvExportService = $csvExportService;
+    }
+
+    public function exportCsv()
+    {
+        $tasks = Task::all(['title', 'description', 'status', 'priority', 'due_date', 'completed_at']);
+
+        $data = $tasks->map(function ($task) {
+            return [
+                $task->title,
+                $task->description,
+                $task->status,
+                $task->priority,
+                $task->due_date,
+                $task->completed_at,
+            ];
+        })->toArray();
+
+        $headers = ['Title', 'Description', 'Status', 'Priority', 'Due Date', 'Completed At'];
+        $filename = 'tasks_export_' . now()->format('Y_m_d_H_i_s') . '.csv';
+
+        return $this->csvExportService->generateCsv($data, $filename, $headers);
+    }
     public function index()
     {
         $this->authorize('viewAny',Task::class);
@@ -126,11 +153,6 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')->with('success','Task deleted successfully');
     }
-    public function trash()
-    {
-        $tasks = Task::onlyTrashed()->paginate(15);
-        return view('tasks.trash', compact('tasks'));
-    }
 
     /**
      * Restore a soft deleted task.
@@ -151,30 +173,8 @@ class TaskController extends Controller
         $this->authorize('forceDelete',$task);
         $task = Task::onlyTrashed()->findOrFail($id);
         $task->forceDelete();
-        return redirect()->route('tasks.trash')->with('success', 'Task permanently deleted');
+        return redirect()->route('tasks.index')->with('success', 'Task permanently deleted');
     }
 
-    public function generateCsv(CsvExportService $csvExportService)
-    {
-        $tasks = Task::latest()->get();
-    
-        $data = $tasks->map(function ($task) {
-            return [
-                $task->title,
-                $task->description,
-                $task->user_id,
-                $task->customer_id,
-                $task->status,
-                $task->priority,
-                $task->due_date,
-                $task->completed_at,
-                optional($task->due_date)->format('Y-m-d H:i:s'),
-                optional($task->completed_at)->format('Y-m-d H:i:s'),
-            ];
-        });
-    
-        return $csvExportService->generateCsv($data, 'tasks.csv', [
-            'Title', 'Description', 'User ID', 'Customer ID', 'Status', 'Priority', 'Due Date', 'Completed At'
-        ]);
-    }
+
 }

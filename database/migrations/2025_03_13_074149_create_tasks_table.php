@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('customer_id')->nullable()->constrained();
+            $table->foreignId('customer_id')->nullable()->constrained()->cascadeonDelete();
             $table->string('status');
             $table->string('priority');
             $table->date('due_date');
