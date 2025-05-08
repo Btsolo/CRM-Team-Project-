@@ -46,13 +46,31 @@
         <div class="space-y-4">
             <!-- FAQ Item -->
         <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-lg font-semibold">How do I add a customer?</h3>
-            <p class="text-gray-600 mt-2">Go to the Customers page and click the "Add Customer" button. Fill in the required details and save.</p>
+        <button type="button" class="w-full text-left flex justify-between items-center text-lg font-semibold" 
+        onclick="document.getElementById('faq-answer-add-customer').classList.toggle('hidden');">
+        How do I add a customer?
+        <svg class="w-5 h-5 text-gray-600 transform transition-transform" id="faq-icon-add-customer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    <p id="faq-answer-add-customer" class="text-gray-600 mt-2 hidden">
+        Go to the Customers page and click the "Add Customer" button. Fill in the required details and save.
+    </p>
+          
         </div>
         <!-- FAQ Item -->
         <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-lg font-semibold">How do I track tasks?</h3>
-            <p class="text-gray-600 mt-2">Navigate to the Task Tracking page to view and manage all your tasks.</p>
+        <button type="button" class="w-full text-left flex justify-between items-center text-lg font-semibold" 
+        onclick="document.getElementById('faq-answer').classList.toggle('hidden');">
+        How do I track tasks?
+        <svg class="w-5 h-5 text-gray-600 transform transition-transform" id="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    <p id="faq-answer" class="text-gray-600 mt-2 hidden">
+        Navigate to the Task Tracking page to view and manage all your tasks.
+    </p>
+           
         </div>
         </div>
     </section>
