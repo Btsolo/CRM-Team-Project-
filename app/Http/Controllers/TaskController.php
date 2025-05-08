@@ -27,7 +27,7 @@ class TaskController extends Controller
     public function exportCsv()
     {
         $tasks = Task::all(['title', 'description', 'status', 'priority', 'due_date', 'completed_at']);
-
+    
         $data = $tasks->map(function ($task) {
             return [
                 $task->title,
@@ -38,10 +38,10 @@ class TaskController extends Controller
                 $task->completed_at,
             ];
         })->toArray();
-
+    
         $headers = ['Title', 'Description', 'Status', 'Priority', 'Due Date', 'Completed At'];
         $filename = 'tasks_export_' . now()->format('Y_m_d_H_i_s') . '.csv';
-
+    
         return $this->csvExportService->generateCsv($data, $filename, $headers);
     }
     public function index()
@@ -80,8 +80,8 @@ class TaskController extends Controller
         $priorities = Task::select('priority')->distinct()->pluck('priority');
     
         $tasks = $query->paginate(15);
-    
-        return view('tasks.index', compact('tasks', 'columns', 'statuses', 'priorities'));
+        $csv = 'tasks.export.csv';
+        return view('tasks.index', compact('tasks', 'columns', 'statuses', 'priorities','csv'));
     }
     
 

@@ -41,9 +41,7 @@
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-md">Filter</button>
     
         <!-- Reset Button -->
-        <a href="{{ route('tasks.index') }}" class="bg-gray-500 text-white p-2 rounded-md">Reset</a>
     </form>
-    
     <x-table :columns="$columns" :data="$tasks" link-name="Create Task" table-title="Task List"
         route-create="tasks.create"
         route-view="tasks.show"
@@ -51,7 +49,7 @@
         route-delete="tasks.destroy"
         route-restore="tasks.restore"
         route-force-delete="tasks.forceDelete"
-        csv="tasks.download">
+        csv="tasks.export.csv">
         Task List
     </x-table>
 </section>

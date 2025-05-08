@@ -19,64 +19,80 @@
             </style>
         @endif
     </head>
-    
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <div style="width: 250px; height: 150px;">
-            <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
-              <!-- Background -->
-              <rect width="500" height="300" fill="white"/>
-              
-              <!-- Main Logo Circle -->
-              <circle cx="250" cy="150" r="100" fill="#3498db" opacity="0.9"/>
-              
-              <!-- People Silhouettes -->
-              <g transform="translate(195, 100) scale(0.6)">
-            <!-- Person 1 -->
-            <circle cx="80" cy="50" r="25" fill="#ffffff"/>
-            <path d="M40,120 C40,85 120,85 120,120" stroke="#ffffff" stroke-width="10" fill="none"/>
-            
-            <!-- Person 2 -->
-            <circle cx="170" cy="50" r="25" fill="#ffffff"/>
-            <path d="M130,120 C130,85 210,85 210,120" stroke="#ffffff" stroke-width="10" fill="none"/>
-            
-            <!-- Person 3 (smaller, in front connecting the two) -->
-            <circle cx="125" cy="80" r="20" fill="#ffffff"/>
-            <path d="M95,135 C95,110 155,110 155,135" stroke="#ffffff" stroke-width="10" fill="none"/>
-              </g>
-              
-              <!-- Connection Lines -->
-              <path d="M200,150 L300,150" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
-              <path d="M250,100 L250,200" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
-              <path d="M215,115 L285,185" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
-              <path d="M215,185 L285,115" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
-              
-              <!-- Text -->
-              <text x="250" y="245" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="#333333">CRM</text>
-              <text x="250" y="270" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#666666">Customer Relationship Management</text>
-            </svg>
-        </div>
+    <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <!-- Heading -->
+        <h2 class="text-3xl font-bold text-blue-600 mb-4 text-center">WELCOME</h2>
+        <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+        
         <div class="bg-white p-8 rounded-lg shadow-md w-96 text-center">
     
-            <!-- Heading -->
-            <h2 class="text-3xl font-bold text-blue-600 mb-4">Welcome to CRM</h2>
+
+
+
+
+        <!-- Main Logo Circle -->
+         <circle cx="250" cy="150" r="100" fill="#000000" opacity="0.9"/>
+         <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="500" height="300" fill="white"/>
+  
+  <!-- Main Logo Circle -->
+  <circle cx="250" cy="150" r="100" fill="#3498db" opacity="0.9"/>
+  
+  <!-- People Silhouettes -->
+  <g transform="translate(195, 100) scale(0.6)">
+    <!-- Person 1 -->
+    <circle cx="80" cy="50" r="25" fill="#ffffff"/>
+    <path d="M40,120 C40,85 120,85 120,120" stroke="#ffffff" stroke-width="10" fill="none"/>
+    
+    <!-- Person 2 -->
+    <circle cx="170" cy="50" r="25" fill="#ffffff"/>
+    <path d="M130,120 C130,85 210,85 210,120" stroke="#ffffff" stroke-width="10" fill="none"/>
+    
+    <!-- Person 3 (smaller, in front connecting the two) -->
+    <circle cx="125" cy="80" r="20" fill="#ffffff"/>
+    <path d="M95,135 C95,110 155,110 155,135" stroke="#ffffff" stroke-width="10" fill="none"/>
+  </g>
+  
+  <!-- Connection Lines -->
+  <path d="M200,150 L300,150" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
+  <path d="M250,100 L250,200" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
+  <path d="M215,115 L285,185" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
+  <path d="M215,185 L285,115" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,4"/>
+  
+  <!-- Text -->
+  <text x="250" y="245" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="#333333">CRM</text>
+  <text x="250" y="270" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#666666">Customer Relationship Management</text>
+</svg>
+
+        <!-- Description -->
+        <p class="text-gray-600 text-sm mb-6 text-center">
+            Your Simple & Smart Business Companion. Stay organized, track interactions, and grow your business effortlessly!
+        </p>
+        
+        <!-- Login Form -->
+        <form method="POST" action="{{ route('login') }}" class="space-y-4">
+            @csrf
+           
+          
+            <button type="submit"
+                class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
+                Login
+            </button>
+        </form>
+        
+        <!-- Additional Links -->
+        <div class="mt-4 text-center">
+            <a href="{{ route('register') }}" class="text-blue-600 hover:underline text-sm">Register</a> |
             
-            <!-- Description -->
-            <p class="text-gray-700 text-sm mb-6">
-              Your Simple & Smart Business Companion. Stay organized, track interactions, and grow your business effortlessly!
-            </p>
+            <a  href="{{ route('login') }}"  class="text-blue-600 hover:underline text-sm">Login →</a>
+        </div>
+    </div>
+
         
-            <!-- Get Started Button -->
-            <div class="mb-6">
-              <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                Get Started
-              </a>
-            </div>
-        
-             <!-- Additional Links -->
-            <div class="mt-6 space-y-2">
-                    <a  href="{{ route('register') }}" class="text-blue-600 hover:underline text-sm">Register →</a>
-                    <a  href="{{ route('login') }}"  class="text-blue-600 hover:underline text-sm">Login →</a>
-                </div>
+             
+                
         
             
         
