@@ -2,7 +2,7 @@
 
 @section('content')
 <main class="flex-1 p-6 bg-white md:ml-10 transition-all duration-300 rounded-tl-xl shadow-inner">
-
+    
     <h3 class="text-2xl font-bold mb-4">Welcome {{ $user->first_name. ' '.$user->last_name }}.</h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -13,6 +13,7 @@
                 <div>
                     <h3 class="text-gray-500 text-sm font-medium">Total Customers</h3>
                     <p class="text-2xl font-bold text-blue-600 mt-2">{{ $totalCustomers }}</p>
+                    
                 </div>
                 <div class="bg-blue-100 p-3 rounded-full">
                     <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +45,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-gray-500 text-sm font-medium">Total Projects</h3>
-                    <p class="text-2xl font-bold text-purple-600 mt-2">{{ $projects->count() }}</p>
+                    <p class="text-2xl font-bold text-purple-600 mt-2">{{ $projectCount }}</p>
                 </div>
                 <div class="bg-purple-100 p-3 rounded-full">
                     <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

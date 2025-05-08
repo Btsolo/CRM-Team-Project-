@@ -46,11 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
     Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.forceDelete');
 
-    Route::get('customers/download', [CustomerController::class, 'generateCsv'])->name('customers.download');
-    Route::get('tasks/download', [TaskController::class, 'generateCsv'])->name('tasks.download');
-    Route::get('interactions/download', [InteractionController::class, 'generateCsv'])->name('interactions.download');
-    Route::get('projects/download', [ProjectController::class, 'generateCsv'])->name('projects.download');
-    Route::get('users/download', [ProjectController::class, 'generateCsv'])->name('users.download');
+    Route::get('customers/download', [CustomerController::class, 'exportCsv'])->name('customers.download');
+    Route::get('tasks/download', [TaskController::class, 'exportCsv'])->name('tasks.download');
+    Route::get('interactions/download', [InteractionController::class, 'exportCsv'])->name('interactions.download');
+    Route::get('projects/download', [ProjectController::class, 'exportCsv'])->name('projects.download');
+    Route::get('users/download', [ProjectController::class, 'exportCsv'])->name('users.download');
 
 
 

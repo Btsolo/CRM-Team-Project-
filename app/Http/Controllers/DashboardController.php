@@ -17,7 +17,9 @@ class DashboardController extends Controller
         $totalCustomers = Customer::count();
         $pendingTasks = Task::where('status', 'planning')->count();
         $recentInteractions = Interaction::latest()->limit(3)->get();
-        $projects = Project::latest()->take(5)->get();
+        $projects = Project::latest()->get();
+        $projectCount = Project::count();
+
         $user = Auth::user();
         $growthRate = Project::whereBetween('created_at', [now()->subMonths(6), now()])->count() /
               max(1, Project::whereBetween('created_at', [now()->subMonths(12), now()->subMonths(6)])->count()) * 100 - 100;
@@ -28,6 +30,6 @@ $taskCompletionRate = Task::whereNotNull('completed_at')
 
 $interactionStability = Interaction::whereBetween('created_at', [now()->subMonths(6), now()])->count() -
                         Interaction::whereBetween('created_at', [now()->subMonths(12), now()->subMonths(6)])->count();
-        return view('dashboard', compact('totalCustomers', 'pendingTasks', 'recentInteractions','projects','user','growthRate', 'taskCompletionRate', 'interactionStability'));
+        return view('dashboard', compact('totalCustomers','projectCount', 'pendingTasks', 'recentInteractions','projects','user','growthRate', 'taskCompletionRate', 'interactionStability'));
     }
 }
