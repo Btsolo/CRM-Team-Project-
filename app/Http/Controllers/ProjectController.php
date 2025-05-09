@@ -13,10 +13,38 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Notifications\ProjectAssignedNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Services\CsvExportService;
 
 class ProjectController extends Controller
 {
     use AuthorizesRequests;
+    protected $csvExportService;
+
+    public function __construct(CsvExportService $csvExportService)
+    {
+        $this->csvExportService = $csvExportService;
+    }
+    public function exportCsv()
+    {
+        $projects = Project::all(['name', 'status', 'priority', 'start_date', 'budget']);
+    
+        $data = $projects->map(function ($project) {
+            return [
+                $project->name,
+                $project->description,
+                $project->status,
+                $project->priority,
+                $project->budget,
+                $project->actual_cost,
+                $project->notes
+            ];
+        })->toArray();
+    
+        $headers = ['Name', 'Description','Status', 'Priority','Budget', 'Actual Cost', 'Notes'];
+        $filename = 'projects_export_' . now()->format('Y_m_d_H_i_s') . '.csv';
+    
+        return $this->csvExportService->generateCsv($data, $filename, $headers);
+    }
     /**
      * Display a listing of the resource.
      */

@@ -42,6 +42,9 @@
     
         <!-- Reset Button -->
     </form>
+    <div class="flex justify-end mb-4">
+        <a href="{{ route('tasks.export.csv') }}" class="btn btn-success">Export to CSV</a>
+    </div>
     <x-table :columns="$columns" :data="$tasks" link-name="Create Task" table-title="Task List"
         route-create="tasks.create"
         route-view="tasks.show"

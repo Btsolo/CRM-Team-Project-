@@ -20,6 +20,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('customers/download', [CustomerController::class, 'exportCsv'])->name('customers.download');
+    Route::get('/tasks/export-csv', [TaskController::class, 'exportCsv'])->name('tasks.export.csv');
+    Route::get('interactions/download', [InteractionController::class, 'exportCsv'])->name('interactions.download');
+    Route::get('projects/download', [ProjectController::class, 'exportCsv'])->name('projects.download');
+    Route::get('users/download', [ProjectController::class, 'exportCsv'])->name('users.download');
+
     Route::resource('customers', CustomerController::class);
     Route::resource('tasks', TaskController::class);
     Route::resource('interactions', InteractionController::class);
@@ -46,12 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
     Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.forceDelete');
 
-    Route::get('customers/download', [CustomerController::class, 'exportCsv'])->name('customers.download');
-    Route::get('/tasks/export-csv', [TaskController::class, 'exportCsv'])->name('tasks.export.csv');
-    Route::get('interactions/download', [InteractionController::class, 'exportCsv'])->name('interactions.download');
-    Route::get('projects/download', [ProjectController::class, 'exportCsv'])->name('projects.download');
-    Route::get('users/download', [ProjectController::class, 'exportCsv'])->name('users.download');
-
+   
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

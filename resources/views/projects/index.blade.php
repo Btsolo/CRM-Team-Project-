@@ -42,7 +42,9 @@
         <!-- Reset Button -->
         <a href="{{ route('projects.index') }}" class="bg-gray-500 text-white p-2 rounded-md">Reset</a>
     </form>
-    
+    <div class="flex justify-end mb-4">
+        <a href="{{ route('projects.download') }}" class="btn btn-success">Export to CSV</a>
+    </div>
     <x-table :columns="$columns" :data="$projects" link-name="Create Project" table-title="Project List"
         route-create="projects.create"
         route-view="projects.show"

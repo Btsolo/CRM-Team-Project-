@@ -17,8 +17,8 @@
     
     @endif
 <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ $tableTitle }}</h2>
-<div class="overflow-x-auto">
-     <!-- @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
+<!-- <div class="overflow-x-auto">
+     @if (in_array(Auth::user()->role->id, [\App\Models\Role::IS_ADMIN, \App\Models\Role::IS_MANAGER]))
     <div class="flex justify-end mb-2">
         <a href="{{ route($csv) }}" class="btn btn-success">Export to Excel</a>
     </div>

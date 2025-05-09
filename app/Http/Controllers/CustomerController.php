@@ -11,6 +11,39 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class CustomerController extends Controller
 {
     use AuthorizesRequests;
+    protected $csvExportService;
+
+    public function __construct(CsvExportService $csvExportService)
+    {
+        $this->csvExportService = $csvExportService;
+    }
+    public function exportCsv()
+{
+    $customers = Customer::latest()->get();
+
+    $data = $customers->map(function ($customer) {
+        return [
+            $customer->first_name,
+            $customer->last_name,
+            $customer->email,
+            $customer->phone_number,
+            $customer->company_name,
+            $customer->customer_type,
+            $customer->industry,
+            $customer->tags,
+            $customer->status,
+        ];
+    })->toArray();
+
+    $headers = [
+        'First Name', 'Last Name', 'Email', 'Phone Number', 'Company Name', 
+        'Customer Type', 'Industry', 'Tags', 'Status'
+    ];
+
+    $filename = 'customers_export_' . now()->format('Y_m_d_H_i_s') . '.csv';
+
+    return $this->csvExportService->generateCsv($data, $filename, $headers);
+}
     public function index()
     {
         $this->authorize('viewAny', Customer::class);
@@ -127,26 +160,5 @@ public function forceDelete($id)
 
     return redirect()->route('customers.index')->with('success', 'Customer permanently deleted');
 }
-public function generateCsv(CsvExportService $csvExportService)
-{
-    $customers = Customer::latest()->get();
 
-    $data = $customers->map(function ($customer) {
-        return [
-            $customer->first_name,
-            $customer->last_name,
-            $customer->email,
-            $customer->phone_number,
-            $customer->company_name,
-            $customer->customer_type,
-            $customer->industry,
-            $customer->tags,
-            $customer->status,
-        ];
-    });
-
-    return $csvExportService->generateCsv($data, 'customers.csv', [
-        'First Name', 'Last Name', 'Email', 'Phone Number', 'Company Name', 'Customer Type', 'Industry', 'Tags', 'Status'
-    ]);
-}
 }

@@ -4,10 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\CsvExportService;
 
 class UserController extends Controller
 {
 
+
+
+    // protected $csvExportService;
+
+    // public function __construct(CsvExportService $csvExportService)
+    // {
+    //     $this->csvExportService = $csvExportService;
+    // }
+    // public function exportCsv()
+    // {
+    //     $users = User::all(['first_name', 'last_name', 'email', 'role_id', 'created_at']);
+    
+    //     $data = $users->map(function ($user) {
+    //         return [
+    //             $user->first_name,
+    //             $user->last_name,
+    //             $user->email,
+    //             $user->role->name ?? 'N/A', // Assuming `role` is a relationship
+    //             $user->created_at->format('Y-m-d H:i:s'),
+    //         ];
+    //     })->toArray();
+    
+    //     $headers = ['First Name', 'Last Name', 'Email', 'Role', 'Created At'];
+    //     $filename = 'users_export_' . now()->format('Y_m_d_H_i_s') . '.csv';
+    
+    //     return $this->csvExportService->generateCsv($data, $filename, $headers);
+    // }
     public function index()
     {
         $columns  = ['first_name', 'last_name', 'email','role_id'];
